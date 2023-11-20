@@ -18,21 +18,8 @@ public class UserController {
     }
 
     @PostMapping("crear")
-    public User guardarUser(@RequestParam String name, @RequestParam String email,  @RequestParam String password) throws ResourceNotFoundException{
-        return userRepository.save(new User(email, name, password));
+    public User guardarUser(@RequestBody User user){
+        return userRepository.save(user);
     }
-
-    String name ;
-    @RequestMapping("/submit")
-    public String submit(@RequestBody String user) {
-        this.name = name;
-        // Procesa la entrada
-        return "/success";
-    }
-
-    @RequestMapping("/success")
-    public String success() {
-        // Muestra un mensaje de éxito
-        return "El nombre es: " + name;
-    }
+    
 }

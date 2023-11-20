@@ -1,27 +1,56 @@
 <!DOCTYPE html>
-<html lang="en">
+<!-- index.html -->
+<!DOCTYPE html>
+<html>
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Pac-Man Game</title>
+    <script src="https://cdn.jsdelivr.net/npm/@stomp/stompjs@5.0.0/bundles/stomp.umd.js"></script>
 </head>
 <body>
-    <h1> Hello World </h1>
-    <p> Esta Funcionando wow</p>
-    <form action="/crear" method="post">
-        <input type="text" name="name"><br>
-        <input type="text" name="email"><br>
-        <input type="text" name="password"><br>
-        <input type="submit" value="Enviar">
-    </form>
-    <script>
-        let url = "http://localhost:5000/user"
-        fetch(url)
-            .then(Response => Response.json())
-            .then(data => MostrarData (data))
-            .catch(Error => Console.log(Error))
-        const MostrarData = (data) => {
-            console.log(data)
+<script>
+        let stompCliente = null;
+
+        const onWebSocketClose = () => {
+            if (stompCliente !== null) {
+                stompCliente.deactivate();
+            }
+        };
+
+        function connect() {
+            stompCliente = new StompJs.Client({
+            webSocketFactory: () => new WebSocket('ws://localhost:5000/pacman-websocket')
+            });
+            stompCliente.activate();
         }
+
+        function sendCoordinates() {
+            var xCoordinate = document.getElementById("xCoordinate").value;
+            var yCoordinate = document.getElementById("yCoordinate").value;
+
+            var move = {
+                playerId: "player1",
+                direction: 1
+            };
+            stompCliente.publish({
+                destination: '/app/move',
+                body: JSON.stringify({
+                    CoordenadaX: xCoordinate,
+                    CoordenadaY: yCoordinate
+                })
+            });
+        }
+
+        connect();
+        // Lógica del juego y manejo de eventos
     </script>
+    <!-- Botón para enviar coordenadas -->
+    <label for="xCoordinate">X Coordinate:</label>
+    <input type="text" id="xCoordinate" />
+    <br />
+    <label for="yCoordinate">Y Coordinate:</label>
+    <input type="text" id="yCoordinate" />
+    <br />
+    <button onclick="sendCoordinates()">Enviar Coordenadas</button>
+    <button onclick="connect()">Conectar</button>
 </body>
 </html>
