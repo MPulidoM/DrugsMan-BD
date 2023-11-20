@@ -21,5 +21,10 @@ public class UserController {
     public User guardarUser(@RequestBody User user){
         return userRepository.save(user);
     }
+
+    @PostMapping("prueba")
+    public void prueba(@RequestBody String str){
+        System.out.println(str);
+    }
     
 }
