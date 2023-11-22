@@ -18,7 +18,15 @@ jobs:
       - name: SonarCloud Scan
         uses: sonarsource/sonarcloud-github-action@master
         with:
-          projectBaseDir: mvn org.sonarsource.scanner.maven:sonar-maven-plugin:3.8.0.2131:sonar
+          projectBaseDir: my-custom-directory
+          args: >
+            -Dsonar.organization=mpulidom
+            -Dsonar.projectKey=MpulidoM_DrugsMan-DB
+            -Dsonar.python.coverage.reportPaths=coverage.xml
+            -Dsonar.sources=src
+            -Dsonar.test.exclusions=tests/**
+            -Dsonar.tests=tests/
+            -Dsonar.verbose=true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
