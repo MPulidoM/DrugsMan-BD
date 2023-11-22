@@ -17,6 +17,8 @@ jobs:
           fetch-depth: 0
       - name: SonarCloud Scan
         uses: sonarsource/sonarcloud-github-action@master
+        with:
+          projectBaseDir: mvn org.sonarsource.scanner.maven:sonar-maven-plugin:3.8.0.2131:sonar
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
