@@ -8,8 +8,7 @@ on:
     
 defaults:
   run:
-    working-directory: WebApp
-
+    working-directory: src
 jobs:
   build:
     name: Build and analyze
